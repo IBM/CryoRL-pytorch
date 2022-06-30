@@ -1,8 +1,5 @@
 import argparse
 import os
-import pprint
-
-import gym
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
@@ -11,7 +8,6 @@ from tianshou.data import Collector, VectorReplayBuffer
 from tianshou.env import DummyVectorEnv
 from tianshou.policy import A2CPolicy, ImitationPolicy
 from tianshou.trainer import offpolicy_trainer, onpolicy_trainer
-#from tianshou.utils import TensorboardLogger
 from tianshou.utils import BasicLogger
 from tianshou.utils.net.common import ActorCritic # , Net
 

@@ -1,8 +1,5 @@
 import os
-import gym
 import torch
-import pickle
-import pprint
 import argparse
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
@@ -11,7 +8,6 @@ from tianshou.policy import C51Policy
 from tianshou.policy.random import RandomPolicy
 from tianshou.utils import BasicLogger
 from tianshou.env import DummyVectorEnv
-from tianshou.data import Batch
 from tianshou.trainer import offpolicy_trainer
 from tianshou.data import Collector, VectorReplayBuffer, PrioritizedVectorReplayBuffer
 
