@@ -63,41 +63,21 @@ def get_dataset(dataset, prediction_type, use_one_hot=False):
     feature_dim = feature_set['feature_dim']
     category_bins = feature_set['category_bins']
 
-    # set a mode
-    if dataset['simple_configure'] is not None:
-        train_idx = get_img_names(feature_set['train_prediction_file'])
-        val_idx = get_img_names(feature_set['val_prediction_file'])
-        ctfs_train = split_by_name_ctf(feature_set['ctf_file'], train_idx)
-        ctfs_val = split_by_name_ctf(feature_set['ctf_file'], val_idx)
-        train_dataset = CryoEMData(feature_set['timestamps'],
-                                ctf_file=ctfs_train,
-                                prediction_file=feature_set['train_prediction_file'],
-                                prediction_type=prediction_type,
-                                category_bins=category_bins,
-                                use_one_hot=use_one_hot)
-
-        val_dataset = CryoEMData(feature_set['timestamps'],
-                       ctf_file=ctfs_val,
-                       prediction_file=feature_set['val_prediction_file'],
-                       prediction_type=prediction_type,
-                       category_bins=category_bins,
-                       use_one_hot=use_one_hot) 
-        
-    else:
-        train_dataset = CryoEMData(feature_set['train_timestamps'],
+    train_dataset = CryoEMData(feature_set['train_timestamps'],
                                 ctf_file=feature_set['train_ctf_file'],
                                 prediction_file=feature_set['train_prediction_file'],
                                 prediction_type=prediction_type,
                                 category_bins=category_bins,
                                 use_one_hot=use_one_hot)
 
-        val_dataset = CryoEMData(feature_set['val_timestamps'],
+    val_dataset = CryoEMData(feature_set['val_timestamps'],
                        ctf_file=feature_set['val_ctf_file'],
                        prediction_file=feature_set['val_prediction_file'],
                        prediction_type=prediction_type,
                        category_bins=category_bins,
                        use_one_hot=use_one_hot)
 
-    print(train_dataset.num_holes())
-    print(val_dataset.num_holes())
+    print(f"Number of training holes: {train_dataset.num_holes()}")
+    print(f"Number of validation holes: {val_dataset.num_holes()}")
+    
     return train_dataset, val_dataset, feature_dim, category_bins

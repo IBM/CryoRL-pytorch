@@ -161,6 +161,7 @@ class CryoEMPatch(CryoEMObject):
                 [hole.gt_ctf for hole in self.container if hole.gt_ctf.value <= threshold and hole.status == False]
 
     def get_categories(self, prediction=True, visited=True):
+        # print(f"prediciton type: {prediction}")
         if prediction:
             return [hole.category for hole in self.container if hole.status == True] if visited else \
                 [hole.category for hole in self.container if hole.status == False]

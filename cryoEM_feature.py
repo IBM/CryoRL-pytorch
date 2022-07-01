@@ -221,6 +221,7 @@ class CTFCategoryFeature(CryoEMFeature):
 
         # unvisited hole counts
         unvisited_ctf_counts = len(unvisited_categories)
+        # [print(c.value) for c in unvisited_categories]
         # unvisited low ctf counts
         unvisited_lCTF_counts = sum([c.value[0] for c in unvisited_categories])
 

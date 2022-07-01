@@ -102,7 +102,7 @@ def test_c51(args=get_args()):
     print(args)
 
     prediction_type = CryoEMConfig.CLASSIFICATION if args.prediction_type == 'classification' else CryoEMConfig.REGRESSION
-    train_dataset, val_dataset, feature_dim, category_bins, train_visual_feature, val_visual_feature = get_dataset(
+    train_dataset, val_dataset, feature_dim, category_bins = get_dataset(
         args.dataset,
         # category_bins=[0,CryoEMConfig.LOW_CTF_THRESH, 99999],
         prediction_type=prediction_type,
@@ -114,10 +114,10 @@ def test_c51(args=get_args()):
     # print(CryoEMConfig)
 
     # only doable in cpu due to memory issue
-    if train_visual_feature is not None:
-        train_visual_feature = torch.from_numpy(train_visual_feature[np.newaxis, :]).cpu()
-    if val_visual_feature is not None:
-        val_visual_feature = torch.from_numpy(val_visual_feature[np.newaxis, :]).cpu()
+    # if train_visual_feature is not None:
+    #     train_visual_feature = torch.from_numpy(train_visual_feature[np.newaxis, :]).cpu()
+    # if val_visual_feature is not None:
+    #     val_visual_feature = torch.from_numpy(val_visual_feature[np.newaxis, :]).cpu()
 
     # train_envs = CryoEMEnv(train_dataset, history_size=CryoEMConfig.HISTORY_SIZE, ctf_thresh=CryoEMConfig.LOW_CTF_THRESH)
     # test_envs = CryoEMEnv(val_dataset, history_size=CryoEMConfig.HISTORY_SIZE, ctf_thresh=CryoEMConfig.LOW_CTF_THRESH)

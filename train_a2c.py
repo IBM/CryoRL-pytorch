@@ -174,7 +174,7 @@ def test_a2c_with_il(args=get_args()):
     #    model_dir += '-replay'
     model_dir += '-{}-train{}-test{}-step{}-e{}'.format(args.dataset, args.training_num, args.test_num, args.step_per_epoch, args.epoch)
     model_dir += '-pred' if args.train_prediction else '-gt'
-    model_dir += '-pred' if args.test_prediction else '-gt'
+    # model_dir += '-pred' if args.test_prediction else '-gt'
     if prediction_type == CryoEMConfig.CLASSIFICATION:
         model_dir += '-hard' if args.use_one_hot else '-soft'
     else:

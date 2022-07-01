@@ -118,12 +118,15 @@ class CryoEMData:
         return tuple(one_hot_prediction)
 
     def prediction_loader(self, prediction_file, prediction_type, use_one_hot=False):
-        data = np.loadtxt(prediction_file, delimiter=' ', dtype=str)
+        if type(prediction_file) == str:
+            data = np.loadtxt(prediction_file, delimiter=' ', dtype=str)
+        else:
+            data = prediction_file
 
         output = {}
         for p in data:
             # in this new file I generated, the last two values are true and predicted labels
-            prediction = tuple(float(item) for item in p[1:-2])
+            prediction = tuple(float(item) for item in p[1:])
             if use_one_hot:
                 if prediction_type == CryoEMConfig.CLASSIFICATION:
                     prediction = self.one_hot_vector(prediction)
@@ -206,15 +209,19 @@ class CryoEMData:
         grid_cnt = 0
         for g_th, (grid_name, grid) in enumerate(gr_sq_hl_en.items()):
             squareList = list()
+            local_square_cnt = 0
             for i_th, (square_name, square) in enumerate(grid.items()):
                 patchList = list()
+                local_patch_cnt = 0
                 for j_th, (patch_name, patch) in enumerate(square.items()):
                     holeList = list()
+                    local_hole_cnt = 0
                     for k_th, (hole_name, hole_CTF) in enumerate(patch.items()):
                         ctf_value = min(hole_CTF[0], CryoEMConfig.MAX_CTF_VALUE)
                         ctf_conf = hole_CTF[1]
                         gt_ctf = CTFValue(ctf_value, ctf_conf)
-
+                        if not hole_name in predictions.keys():
+                            continue
                         if prediction_type == CryoEMConfig.CLASSIFICATION:
                             ctf_category = CTFCategory(predictions[hole_name], 1.0)
                             ctf = None
@@ -225,14 +232,24 @@ class CryoEMData:
                         hole_k = CryoEMHole(hole_name, hole_cnt, patch_cnt, gt_ctf=gt_ctf, ctf=ctf, category_bins=category_bins, ctf_category=ctf_category)
 
                         holeList.append(hole_k)
-                        index_list.append((g_th, i_th, j_th, k_th)) # relative indexing
+                        index_list.append((grid_cnt, local_square_cnt, local_patch_cnt, local_hole_cnt)) # relative indexing
                         hole_cnt += 1
+                        local_hole_cnt += 1
+                    if local_hole_cnt == 0:
+                        continue
+                    
                     patch_j = CryoEMPatch(patch_name, patch_cnt, square_cnt, holeList=holeList)
                     patchList.append(patch_j)
+                    local_patch_cnt += 1
                     patch_cnt += 1
+                if local_patch_cnt == 0:
+                    continue
                 square_i = CryoEMSquare(square_name, square_cnt, grid_cnt, patchList=patchList)
                 squareList.append(square_i)
                 square_cnt += 1
+                local_square_cnt += 1
+            if local_square_cnt == 0:
+                continue
             grid_g = CryoEMGrid(grid_name, grid_cnt, squareList=squareList)
             cryoEM_data.append(grid_g)
             grid_cnt += 1
