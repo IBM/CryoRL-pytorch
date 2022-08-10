@@ -25,10 +25,12 @@ Depending on the microscope setup used, these steps may differ; CryoRL will acce
 ## Step 2: Hole-Level Image Regression
 
 {run current regressor on .png files, no supervision}
-
-
+{convert predicted good targets to quality scores}
 
 ## Step 3: DQN Policy Enforcement
+
+{input two files: (.png name : quality score), (.png name : x-coord : y-coord : quality score)}
+{output micrograph trajectory file}
 
 # Re-training CryoRL Models
 
@@ -36,9 +38,11 @@ CryoRL's components can easily be re-trained and evaluated on a dataset of your 
 
 ## Re-training Hole-Level Regressor
 
+By assigning custom ground-truth labels to cropped hole-level .png files, CryoRL's image regressor can be closer fit to your data.
+
 ### Step 0: Assembling Dataset
 
-To have the .png files understood by our mdoel, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
+Firstly, to have the .png files understood by our model, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
 
 <img width="213" alt="Screen Shot 2022-08-10 at 3 21 30 PM" src="https://user-images.githubusercontent.com/109689432/184002307-ae7eb954-aeba-4f7f-b88a-a98433a6bc47.png">
 
@@ -50,11 +54,15 @@ Download {example config.yaml file} as a template, and reassign the `datadir:` f
 
 ### Step 2: Training
 
-Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100` to train a new image regressor model.
+Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100` to train a new image regressor model. Details of the training process are saved into a folder named `cryoRL/log/YOUR_DATA/`. The model log directory is also returned in the command's output, as can be seen below:
+
+<img width="809" alt="Screen Shot 2022-08-10 at 3 52 35 PM" src="https://user-images.githubusercontent.com/109689432/184008674-86a2c558-8af3-4ba8-8f2e-94b4401dec03.png">
 
 ### Step 3: Evaluating
 
-### Step 4: Return Model Metrics
+Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100 --pretrained /YOUR_MODEL_PATH/`, where `/YOUR_MODEL_PATH/` in the previous example is `/cryoRL/log/YOUR_DATA/SL_resnet18-cosine-bs64-e2/0/`. To quickly retrieve `sk.learn` model metrics, execute `python tools/get_clf_metrics.py --dir /YOUR_MODEL_PATH/` to print the following summary:
+
+
 
 ## Re-training DQN Policy
 
