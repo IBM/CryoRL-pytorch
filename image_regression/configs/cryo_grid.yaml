@@ -1,0 +1,5 @@
+dataset: 'cryo_grid'
+datadir: ''
+num_classes: 2
+train_folder: 'train'
+val_folder: 'val'

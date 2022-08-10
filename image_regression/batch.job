@@ -1,0 +1,30 @@
+
+
+#BSUB -o results/%J.out
+#BSUB -e results/%J.err
+#BSUB -nnodes 1
+#BSUB -q excl
+##BSUB -U qfan_2226
+#BSUB -W 6:00
+##BSUB -stage "storage=1400"
+##BSUB -csm y
+##BSUB -R "1*{select[LN]} + 40*{select[CN&&(hname==c699c056)&&(type==any)]span[ptile=40]}"
+##BSUB -R "1*{select[LN]} + 42*{select[CN&&(hname==c699c001)&&(type==any)]span[ptile=42]}"
+
+#---------------------------------
+
+ulimit -s unlimited
+ulimit -c 100000
+sleep 72h
+
+#source /opt/DL/tensorflow/bin/tensorflow-activate
+#source /opt/DL/tensorboard/bin/tensorboard-activate
+
+#python -c "import tensorflow"
+
+#export CUDA_VISIBLE_DEVICES=1,2,4,5
+
+#cd /gpfs/wscgpfs02/mm3/cityGan/styleGanForCities/
+#python train.py
+#sleep 100
+#hostname -f

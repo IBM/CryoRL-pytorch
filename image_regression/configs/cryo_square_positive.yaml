@@ -1,0 +1,5 @@
+dataset: 'cryo_square_positive'
+datadir: ''
+num_classes: 2
+train_folder: 'train-positive-only'
+val_folder: 'val-positive-only'

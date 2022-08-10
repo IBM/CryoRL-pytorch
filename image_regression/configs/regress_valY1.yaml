@@ -1,0 +1,5 @@
+dataset: 'Y1Data'
+datadir: '/lsi/groups/mcianfroccolab/yilai/cryoRL/Y1/Y1_data_8bit_regression/'
+num_classes: 1
+train_folder: 'train'
+val_folder: 'val'

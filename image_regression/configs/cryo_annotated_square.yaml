@@ -1,0 +1,6 @@
+dataset: 'cryo_annotated_square'
+datadir: ''
+num_classes: 3
+train_folder: 'train'
+val_folder: 'val'
+data_per_class: [1, 1]
