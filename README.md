@@ -1,5 +1,8 @@
-# CryoRL: Reinforcement-Learning powered cryoEM data collection
+# CryoRL: Reinforcement Learning powered cryoEM data collection
 
+![IMG_0029](https://user-images.githubusercontent.com/109689432/183966746-42acd7a4-f482-4d35-b107-108bfc764c3d.jpg)
+
+CryoRL utilizes a two-fold regressor and reinforcement learning network to determine an optimized cryoEM microscope trajectory from low-magnification images. CryoRL's image regressor predicts micrograph quality from cropped hole-level images. The resulting quality scores are used by cryoRL's reinforcement learning policy to map an optimized trajectory of target holes. CryoRL is currently still in testing; more can be found in "Outperforming cryoEM experts in data collection using artificial intelligence", Li Y, Fan Q, et al., https://www.biorxiv.org/content/10.1101/2022.06.17.496614v1.full.
 
 ## Step 0: Installation
 
@@ -7,9 +10,13 @@ To start, create a new suitable conda environment :
 `conda create --name <env> --file requirements.txt`  
 Typical installation should take only several minutes.
 
-For the full list of dependencies, see 'requirements.txt'.
+For the full list of dependencies as tested in Linux, see 'requirements.txt'.
 
-## Step 2:   
+## Step 1: CryoEM Grid Survey Data Preparation
+
+![IMG_0030](https://user-images.githubusercontent.com/109689432/183967204-659c0aa2-34e4-471b-9b85-309b5d7869df.jpg)
+
+CryoEM grids were first surveyed at the patch level, and the resulting .mrc files converted to 8-bit .png files using e2proc2d.py. 
 
 To add new dataset, you should edit the file  `cryoRL/cryoEM_dataset.py`, and use the corresponding files in the folder `cryoRL/CryoEM_data` (and put new files into it if necessary).
 
