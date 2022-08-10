@@ -1,19 +1,15 @@
-# CryoRL
-Reinforcement Learning Enables Efficient CryoEM Data Collection
+# CryoRL: Reinforcement-Learning powered cryoEM data collection
 
-## Pre-requisite
 
-Tested in Linux.
-Please find all package requirements in `requirements.txt` (tested).
+## Step 0: Installation
 
-## Installation
-
-To create the usable conda environment:  
+To start, create a new suitable conda environment :  
 `conda create --name <env> --file requirements.txt`  
 Typical installation should take only several minutes.
 
+For the full list of dependencies, see 'requirements.txt'.
 
-## Dataset  
+## Step 2:   
 
 To add new dataset, you should edit the file  `cryoRL/cryoEM_dataset.py`, and use the corresponding files in the folder `cryoRL/CryoEM_data` (and put new files into it if necessary).
 
@@ -42,4 +38,4 @@ Note that training would usually take several hours on a typical computer with s
 To evaluate (sample code):  
 ``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --prediction-type regress --train-prediction --test-prediction --eval --duration 480 --print-trajectory``
 
-Note that evaluation would usually take less than 1 hour on a typical computer with supported GPU acceleration. This is because we were running many paralell runs on the same dataset with a random starting position.
+Note that evaluation would usually take less than 1 hour on a typical computer with supported GPU acceleration. This is because we were running many parallel runs on the same dataset with a random starting position.
