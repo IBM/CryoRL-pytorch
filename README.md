@@ -1,5 +1,5 @@
 # CryoRL
-Reinforcement Learning Enabled Efficient CryoEM Data Collection
+Reinforcement Learning Enables Efficient CryoEM Data Collection
 
 ## Pre-requisite
 
