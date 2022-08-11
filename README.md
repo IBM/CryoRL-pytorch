@@ -67,7 +67,32 @@ Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --ba
 ## Re-training DQN Policy
 
 To train a DQN (sample code):  
+
+### Step 0: Compliling dataset
+Multiple datasets were complied in `cryoRL/cryoEM_dataset.py`. For example, `CryoEM-resnet18`:
+```
+    'CryoEM-resnet18': {
+        'cat_feature': {
+            'train_timestamps': './CryoEM_data/timestamps.csv',
+            'val_timestamps': './CryoEM_data/timestamps.csv',
+            'train_ctf_file': './CryoEM_data/CTF_train_by_hl.csv',
+            'val_ctf_file': './CryoEM_data/CTF_val_by_hl.csv',
+            'train_prediction_file': './CryoEM_data/2_categorization_res18_train_by_hl.txt',
+           'val_prediction_file': './CryoEM_data/2_categorization_res18_val_by_hl.txt',
+            'train_visual_file': './CryoEM_data/resnet18-train-cnn-feature.pickle',
+           'val_visual_file': './CryoEM_data/resnet18-val-cnn-feature.pickle',
+           'category_bins': [0, 6, 999999],
+           'feature_dim': 17
+        },
+    }
+```
+To use different image regressor, replace `train_ctf_file`, `val_ctf_file`, `train_prediction_file` and `val_prediction_file` with the evaluation results from your own model. `train_visual_file` is currently repressed.
+
+### Step 1: Traning
+Run `train.py` under the `cryoRL` folder.
 ``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --duration 120 --prediction-type regress --train-prediction --test-prediction``  
 
-To evaluate (sample code):  
+
+## Step 2: Evaluate
+To evaluate, add `--eval` option and the trained policy `policy.pth` under the provided `logdir` will be evaluated.
 ``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --prediction-type regress --train-prediction --test-prediction --eval --duration 480 --print-trajectory``
