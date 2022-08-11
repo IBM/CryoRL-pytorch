@@ -14,9 +14,9 @@ For the full list of dependencies as tested in Linux, see 'requirements.txt'.
 
 ## Step 1: CryoEM Grid Survey Data Preparation
 
-<p align="center">
+
   <img src="https://user-images.githubusercontent.com/109689432/183967204-659c0aa2-34e4-471b-9b85-309b5d7869df.jpg" width="400" height="250">
-</p>
+
 
 CryoEM grids were surveyed at the patch level, and the resulting .mrc files converted to 8-bit .png format using [e2proc2d.py](https://blake.bcm.edu/emanwiki/EMAN2/Programs/e2proc2d) from EMAN2. Individual hole images were identified with [Leginon](https://emg.nysbc.org/redmine/projects/leginon/wiki/Leginon_Homepage) hole coordinates and cropped to boxes of 150x150 px.
 
