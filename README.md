@@ -60,7 +60,7 @@ Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --ba
 
 ### Step 3: Evaluating
 
-Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100 --pretrained /YOUR_MODEL_PATH/`, where `/YOUR_MODEL_PATH/` in the previous example is `/cryoRL/log/YOUR_DATA/SL_resnet18-cosine-bs64-e2/0/`. To quickly retrieve `sk.learn` model metrics, execute `python tools/get_clf_metrics.py --dir /YOUR_MODEL_PATH/` to print a summary similar to the following:
+Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100 --pretrained /YOUR_MODEL_PATH/`, where `/YOUR_MODEL_PATH/` in the previous example is `/cryoRL/log/YOUR_DATA/SL_resnet18-cosine-bs64-e2/0/`. To quickly retrieve `sklearn` model metrics, execute `python tools/get_clf_metrics.py --dir /YOUR_MODEL_PATH/` to print a summary similar to the following:
 
 <img width="679" alt="Screen Shot 2022-08-10 at 9 48 29 PM" src="https://user-images.githubusercontent.com/109689432/184051481-063c64d8-1b78-4358-8aa5-20fb763615ba.png">
 
