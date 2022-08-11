@@ -38,7 +38,7 @@ CryoRL's components can easily be re-trained and evaluated on a dataset of your 
 
 ## Re-training Hole-Level Regressor
 
-By assigning custom ground-truth labels to cropped hole-level .png files, CryoRL's image regressor can be closer fit to your data.
+By retraining the image regressor on custom ground-truth labels : cropped hole-level .png files, CryoRL can be closer fit to your data.
 
 ### Step 0: Assembling Dataset
 
