@@ -18,9 +18,9 @@ For the full list of dependencies as tested in Linux, see 'requirements.txt'.
   <img src="https://user-images.githubusercontent.com/109689432/183967204-659c0aa2-34e4-471b-9b85-309b5d7869df.jpg" width="400" height="250">
 </p>
 
-CryoEM grids were surveyed at the patch level, and the resulting .mrc files converted to 8-bit .png format using e2proc2d.py from EMAN2. Individual hole images were identified with Leginon hole coordinates and cropped to boxes of 150x150 px.
+CryoEM grids were surveyed at the patch level, and the resulting .mrc files converted to 8-bit .png format using [e2proc2d.py](https://blake.bcm.edu/emanwiki/EMAN2/Programs/e2proc2d) from EMAN2. Individual hole images were identified with [Leginon](https://emg.nysbc.org/redmine/projects/leginon/wiki/Leginon_Homepage) hole coordinates and cropped to boxes of 150x150 px.
 
-Depending on the microscope setup used, these steps may differ; CryoRL will accept  cropped hole-level images only in .png format. Example hole-level images can be found in https://github.com/yilaili/cryoRL-pytorch-data.
+Depending on the microscope setup used, these steps may differ; CryoRL will accept cropped hole-level images only in .png format. Example hole-level images can be found in https://github.com/yilaili/cryoRL-pytorch-data.
 
 ## Step 2: Hole-Level Image Regression
 
@@ -42,7 +42,7 @@ By assigning custom ground-truth labels to cropped hole-level .png files, CryoRL
 
 ### Step 0: Assembling Dataset
 
-Firstly, to have the .png files understood by our model, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
+Firstly to have the .png files understood by our model, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
 
 <img width="213" alt="Screen Shot 2022-08-10 at 3 21 30 PM" src="https://user-images.githubusercontent.com/109689432/184002307-ae7eb954-aeba-4f7f-b88a-a98433a6bc47.png">
 
@@ -60,9 +60,9 @@ Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --ba
 
 ### Step 3: Evaluating
 
-Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100 --pretrained /YOUR_MODEL_PATH/`, where `/YOUR_MODEL_PATH/` in the previous example is `/cryoRL/log/YOUR_DATA/SL_resnet18-cosine-bs64-e2/0/`. To quickly retrieve `sk.learn` model metrics, execute `python tools/get_clf_metrics.py --dir /YOUR_MODEL_PATH/` to print the following summary:
+Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100 --pretrained /YOUR_MODEL_PATH/`, where `/YOUR_MODEL_PATH/` in the previous example is `/cryoRL/log/YOUR_DATA/SL_resnet18-cosine-bs64-e2/0/`. To quickly retrieve `sk.learn` model metrics, execute `python tools/get_clf_metrics.py --dir /YOUR_MODEL_PATH/` to print a summary similar to the following:
 
-
+<img width="679" alt="Screen Shot 2022-08-10 at 9 48 29 PM" src="https://user-images.githubusercontent.com/109689432/184051481-063c64d8-1b78-4358-8aa5-20fb763615ba.png">
 
 ## Re-training DQN Policy
 
