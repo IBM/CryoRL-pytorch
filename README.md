@@ -32,9 +32,9 @@ To be understood by our model, .png files must be organized into a specific subf
 
 ### Writing Configuration .yaml
 
-Download {example config.yaml file} as a template, and reassign the `datadir:` field to point to your dataset's host folder. Your .yaml file should mirror the following, with all hole-level .png files in the "inputs" subfolder:
+Download {example config.yaml file} as a template, and reassign the `datadir:` field to point to your dataset's host folder. Your .yaml file should mirror the following:
 
-
+### Running Image Regressor Model
 
 ## Step 3: DQN Policy Enforcement
 
