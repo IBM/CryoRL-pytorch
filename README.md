@@ -24,7 +24,15 @@ Depending on the microscope setup used, these steps may differ; CryoRL will acce
 
 ## Step 2: Hole-Level Image Regression
 
+### Assembling Dataset
+
+To be understood by our model, .png files must be organized into a specific subfolder structure. Mirror the file structure below, and place all .png file inputs into the "input" subfolder.
+
+<img width="205" alt="Screen Shot 2022-08-12 at 3 04 18 PM" src="https://user-images.githubusercontent.com/109689432/184426524-d216566b-1b9d-498a-9bcf-48c411d60824.png">
+
 ### Writing Configuration .yaml
+
+Download {example config.yaml file} as a template, and reassign the `datadir:` field to point to your dataset's host folder. Your .yaml file should mirror the following, with all hole-level .png files in the "inputs" subfolder:
 
 
 
@@ -43,7 +51,7 @@ By retraining the image regressor on custom ground-truth labels : cropped hole-l
 
 ### Step 0: Assembling Dataset
 
-Firstly to have the .png files understood by our model, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
+To have the .png files understood by our model, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
 
 <img width="213" alt="Screen Shot 2022-08-10 at 3 21 30 PM" src="https://user-images.githubusercontent.com/109689432/184002307-ae7eb954-aeba-4f7f-b88a-a98433a6bc47.png">
 
@@ -69,8 +77,8 @@ Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --ba
 
 To train a DQN (sample code):  
 
-### Step 0: Compliling dataset
-Multiple datasets were complied in `cryoRL/cryoEM_dataset.py`. For example, `CryoEM-resnet18`:
+### Step 0: Compiling dataset
+Multiple datasets were compiled in `cryoRL/cryoEM_dataset.py`. For example, `CryoEM-resnet18`:
 ```
     'CryoEM-resnet18': {
         'cat_feature': {
@@ -87,9 +95,9 @@ Multiple datasets were complied in `cryoRL/cryoEM_dataset.py`. For example, `Cry
         },
     }
 ```
-To use different image regressor, replace `train_ctf_file`, `val_ctf_file`, `train_prediction_file` and `val_prediction_file` with the evaluation results from your own model. `train_visual_file` is currently repressed.
+To use a different image regressor, replace `train_ctf_file`, `val_ctf_file`, `train_prediction_file` and `val_prediction_file` with the evaluation results from your own model. `train_visual_file` is currently repressed.
 
-### Step 1: Traning
+### Step 1: Training
 Run `train.py` under the `cryoRL` folder.
 ``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --duration 120 --prediction-type regress --train-prediction --test-prediction``  
 
