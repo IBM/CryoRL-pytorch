@@ -24,8 +24,9 @@ Depending on the microscope setup used, these steps may differ; CryoRL will acce
 
 ## Step 2: Hole-Level Image Regression
 
-{run current regressor on .png files, no supervision}
-{convert predicted good targets to quality scores}
+### Writing Configuration .yaml
+
+
 
 ## Step 3: DQN Policy Enforcement
 
