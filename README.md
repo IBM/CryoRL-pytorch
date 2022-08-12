@@ -26,7 +26,7 @@ Depending on the microscope setup used, these steps may differ; CryoRL will acce
 
 ### Assembling Dataset
 
-To be understood by our model, .png files must be organized into a specific subfolder structure. Mirror the file structure below, and place all .png file inputs into the "input" subfolder.
+To be understood by our model, .png files must be organized into a specific subfolder structure. Mirror the file structure below, and place all .png file inputs into the "inputs" subfolder.
 
 <img width="205" alt="Screen Shot 2022-08-12 at 3 04 18 PM" src="https://user-images.githubusercontent.com/109689432/184426524-d216566b-1b9d-498a-9bcf-48c411d60824.png">
 
