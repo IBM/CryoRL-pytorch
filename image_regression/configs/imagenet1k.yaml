@@ -1,5 +1,0 @@
-dataset: 'imagenet1k'
-datadir: ''
-num_classes: 1000
-train_folder: 'train'
-val_folder: 'val'
