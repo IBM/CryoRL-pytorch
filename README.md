@@ -31,7 +31,7 @@ To train a regressor (sample code):
 ``python train.py --backbone_net resnet50 --config configs/regress_valY1.yaml --lr 0.0005 --epoch 50 --logdir exp --loss_function l2 --batch-size 128``
 
 To evaluate (sample code):  
-``python train.py --backbone_net resnet50 --config configs/regress_valY1.yaml --lr 0.0005 --epoch 50 --logdir exp --loss_function l2 --batch-size 128 --evaluate --pretrained exp/YData-resnet50-cosine-bs128-l2-e50-l0.0005/model_best.pth.tar > Y1_2_regress_8bit_res50_val_by_hl.txt``
+``python train.py --backbone_net resnet50 --config configs/regress_valY1.yaml --lr 0.0005 --epoch 50 --logdir exp --loss_function l2 --batch-size 128 --evaluate --pretrained exp/Y1Data-resnet50-cosine-bs128-l2-e50-l0.0005/model_best.pth.tar > Y1_2_regress_8bit_res50_val_by_hl.txt``
 
 
 ## CryoRL (DQN)
