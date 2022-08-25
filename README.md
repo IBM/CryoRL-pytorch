@@ -63,6 +63,8 @@ if dataset == 'Y1Data':
 
 ### Running the regressor
 
+The dataset folder needs to be placed paralell to this repository (CryoRL-pytorch). If you want to change that, you should also change the `config/regress_valY1` to make the path valid.
+
 To train a regressor (sample code):  
 ``python train.py --backbone_net resnet50 --config configs/regress_valY1.yaml --lr 0.0005 --epoch 50 --logdir exp --loss_function l2 --batch-size 128``
 

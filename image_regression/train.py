@@ -35,37 +35,25 @@ def get_dataset(dataset, datadir):
         val_img_dir = os.path.join(datadir, 'val')
         train_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
         val_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # train_img_dir = os.path.join(datadir, 'val')
-        # val_img_dir = os.path.join(datadir, 'train')
-        # train_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # val_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
+
     elif dataset == 'Y2Data':
         train_img_dir = os.path.join(datadir, 'train')
         val_img_dir = os.path.join(datadir, 'val')
         train_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
         val_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # train_img_dir = os.path.join(datadir, 'val')
-        # val_img_dir = os.path.join(datadir, 'train')
-        # train_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # val_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
+
     elif dataset == 'Y3Data':
         train_img_dir = os.path.join(datadir, 'train')
         val_img_dir = os.path.join(datadir, 'val')
         train_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
         val_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # train_img_dir = os.path.join(datadir, 'val')
-        # val_img_dir = os.path.join(datadir, 'train')
-        # train_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # val_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
+
     elif dataset == 'Y4Data':
         train_img_dir = os.path.join(datadir, 'train')
         val_img_dir = os.path.join(datadir, 'val')
         train_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
         val_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # train_img_dir = os.path.join(datadir, 'val')
-        # val_img_dir = os.path.join(datadir, 'train')
-        # train_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
-        # val_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
+
     elif dataset == 'MData':
         train_img_dir = os.path.join(datadir, 'train')
         val_img_dir = os.path.join(datadir, 'val')
