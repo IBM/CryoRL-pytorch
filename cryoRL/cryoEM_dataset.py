@@ -127,8 +127,8 @@ CryoEM_DATASETS = {
     },
     'CryoEM-8bit-resnet50-Y1': {
         'regress_feature': {
-            'train_timestamps': './CryoEM_data/timestamps.csv',
-            'val_timestamps': './CryoEM_data/timestamps.csv',
+            'train_timestamps': './CryoEM_data/target_CTF_Y1.csv',
+            'val_timestamps': './CryoEM_data/target_CTF_Y1.csv',
             'train_ctf_file': './CryoEM_data/target_CTF_Y1_train.csv',
             'val_ctf_file': './CryoEM_data/target_CTF_Y1_val.csv',
             'train_prediction_file': './CryoEM_data/Y1_2_regress_8bit_res50_train_by_hl.txt',
