@@ -1,8 +1,8 @@
-# CryoRL: Reinforcement Learning-powered cryoEM data collection
+# CryoRL: Reinforcement Learning-powered cryo-EM data collection
 
 ![IMG_0029](https://user-images.githubusercontent.com/109689432/183966746-42acd7a4-f482-4d35-b107-108bfc764c3d.jpg)
 
-CryoRL utilizes a two-fold regressor and reinforcement learning network to determine an optimized cryoEM microscope trajectory from low-magnification images. CryoRL's regressor predicts and assigns CTF-associated quality scores to hole-level images. The resulting scores are then used by CryoRL's DQN-based reinforcement learning policy to map a trajectory of target holes. CryoRL is currently still in testing; more can be found in ["Outperforming cryoEM experts in data collection using artificial intelligence", Li Y, Fan Q, et al.](https://www.biorxiv.org/content/10.1101/2022.06.17.496614v1.full).
+CryoRL utilizes a two-fold regressor and reinforcement learning networks to determine an optimized cryo-EM trajectory from low-magnified images. CryoRL's regressor predicts CTF-associated quality scores to hole-level images. The resulting scores are then used by CryoRL's DQN-based reinforcement learning to map a trajectory of target holes. CryoRL is currently still in testing; more can be found in ["Outperforming cryoEM experts in data collection using artificial intelligence", Li Y, Fan Q, et al.](https://www.biorxiv.org/content/10.1101/2022.06.17.496614v1.full).
 
 ## Step 0: Installation
 
@@ -10,7 +10,7 @@ To start, create a new suitable conda environment :
 `conda create --name <env> --file requirements.txt`  
 Typical installation should take only several minutes.
 
-For the full list of dependencies as tested in Linux, see 'requirements.txt'.
+For the full list of dependencies as tested in Linux, see `requirements.txt`.
 
 ## Step 1: CryoEM Grid Survey Data Preparation
 
@@ -18,90 +18,107 @@ For the full list of dependencies as tested in Linux, see 'requirements.txt'.
   <img src="https://user-images.githubusercontent.com/109689432/183967204-659c0aa2-34e4-471b-9b85-309b5d7869df.jpg" width="400" height="250">
 
 
-CryoEM grids were surveyed at the patch level, and the resulting .mrc files converted to 8-bit .png format using [e2proc2d.py](https://blake.bcm.edu/emanwiki/EMAN2/Programs/e2proc2d) from EMAN2. Individual hole images were identified with [Leginon](https://emg.nysbc.org/redmine/projects/leginon/wiki/Leginon_Homepage) hole coordinates and cropped to boxes of 150x150 px.
+Cryo-EM grids were surveyed at the patch level, and the resulting mrc files converted to 8-bit png format using [e2proc2d.py](https://blake.bcm.edu/emanwiki/EMAN2/Programs/e2proc2d) from EMAN2. Individual hole images were identified with [Leginon](https://emg.nysbc.org/redmine/projects/leginon/wiki/Leginon_Homepage) hole coordinates and cropped to boxes of 150x150 px.
 
-Depending on the microscope setup used, these steps may differ; CryoRL will accept cropped hole-level images only in .png format. Example hole-level images can be found in https://github.com/yilaili/cryoRL-pytorch-data.
+Depending on the microscope setup used, these steps may differ; CryoRL will accept cropped hole-level images only in 8-bit png format.
 
 ## Step 2: Hole-Level Image Regression
 
 ### Assembling Dataset
 
-To be understood by our model, .png files must be organized into a specific subfolder structure. Mirror the file structure below, and place all .png file inputs into the "inputs" subfolder.
+Example hole-level images, along with the desired file organization can be found in https://github.com/yilaili/cryoRL-pytorch-data.
 
-<img width="205" alt="Screen Shot 2022-08-12 at 3 04 18 PM" src="https://user-images.githubusercontent.com/109689432/184426524-d216566b-1b9d-498a-9bcf-48c411d60824.png">
+You can also download it from our shared Google drive: https://drive.google.com/drive/folders/1znPXk5fJ9aujWDfeaU3LJlLyVjnuod_Y?usp=sharing.
 
-### Writing Configuration .yaml
+The dataset folder needs to be placed parallel to this repository (CryoRL-pytorch). If you want to change that, you should modify the `config/regress_valY1.yaml` to indicate a valid path.
 
-Download {example config.yaml file} as a template, and reassign the `datadir:` field to point to your dataset's host folder. Your .yaml file should mirror the following:
+### The configuration yaml file
 
-### Running Image Regressor Model
+The example config yaml file is usually as in `config/regress_valY1.yaml`:
 
-## Step 3: DQN Policy Enforcement
+```
+dataset: 'Y1Data'
+datadir: '../../cryoRL-pytorch-data/Aldolase'
+num_classes: 1
+train_folder: 'train'
+val_folder: 'val'
+```
+**dataset**: when changing this, you should also modify the `get_dataset` function in `train.py`. For example, `Y1Data` is defined in `train.py` as:
+```
+if dataset == 'Y1Data':
+    train_img_dir = os.path.join(datadir, 'train')
+    val_img_dir = os.path.join(datadir, 'val')
+    train_ctf_file = os.path.join(datadir, 'target_CTF_Y_train.csv')
+    val_ctf_file = os.path.join(datadir, 'target_CTF_Y_val.csv')
+```
 
-{input two files: (.png name : quality score), (.png name : x-coord : y-coord : quality score)}
-{output micrograph trajectory file}
+**datadir**: needs to be a valid data directory relative to the yaml file.
 
-# Re-training CryoRL Models
+**num_classes**: always 1 for regression.
 
-CryoRL's components can easily be re-trained and evaluated on a dataset of your own. With supported GPU acceleration, expect the image regressor to take well under an hour to train and evaluate. Since the DQN is more computationally intensive, expect training to take several hours and evaluation under an hour.
+**train_folder**: the name of the subfolder including the training data.
 
-## Re-training Hole-Level Regressor
+**val_folder**: the name of the subfolder including the validation data.
 
-By retraining the image regressor on custom ground-truth labels : cropped hole-level .png files, CryoRL can be closer fit to your data.
 
-### Step 0: Assembling Dataset
+### Running the regressor
 
-To have the .png files understood by our model, they must be organized into "training" and "validate" folders based on their respective label. See the file structure below for reference:
+To train a regressor (sample code):  
+``python train.py --backbone_net resnet50 --config configs/regress_valY1.yaml --lr 0.0005 --epoch 50 --logdir exp --loss_function l2 --batch-size 128``
 
-<img width="213" alt="Screen Shot 2022-08-10 at 3 21 30 PM" src="https://user-images.githubusercontent.com/109689432/184002307-ae7eb954-aeba-4f7f-b88a-a98433a6bc47.png">
+Replace the `--config` to any valid yaml file you created as described in the previous section.
 
-### Step 1: Writing Configuration .yaml
+To evaluate the regressor given a trained model (sample code):  
+``python train.py --backbone_net resnet50 --config configs/regress_valY1.yaml --lr 0.0005 --epoch 50 --logdir exp --loss_function l2 --batch-size 128 --evaluate --pretrained exp/Y1Data-resnet50-cosine-bs128-l2-e50-l0.0005/model_best.pth.tar > Y1_2_regress_8bit_res50_val_by_hl.txt``
 
-Download {example config.yaml file} as a template, and reassign the `datadir:` field to point to your dataset's host folder. Your .yaml file should mirror the following:
+Note that this will redirect the stdout and stderr to the `Y1_2_regress_8bit_res50_val_by_hl.txt` file.
 
-<img width="201" alt="Screen Shot 2022-08-10 at 3 28 22 PM" src="https://user-images.githubusercontent.com/109689432/184003641-3c2fbaa8-48b8-4341-ba30-2c4aec35841f.png">
+You can replace the `--config` to the corresponding yaml file and `--pretrained` to any other trained model you want to evaluate.
 
-### Step 2: Training
+With supported GPU acceleration, expect the image regressor to take well under an hour to evaluate. Training a new regressor from scratch may take several hours, depending on the epoch number and batch size being used.
 
-Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100` to train a new image regressor model. Details of the training process are saved into a folder named `cryoRL/log/YOUR_DATA/`. The model log directory is also returned in the command's output, as can be seen below:
+## Step 3: Trajectory planning with reinforcement learning
 
-<img width="809" alt="Screen Shot 2022-08-10 at 3 52 35 PM" src="https://user-images.githubusercontent.com/109689432/184008674-86a2c558-8af3-4ba8-8f2e-94b4401dec03.png">
+### Preparing dataset
+Multiple datasets were compiled in `cryoRL/cryoEM_dataset.py`. For example, `CryoEM-8bit-resnet50-Y1`:
+```
+'CryoEM-8bit-resnet50-Y1': {
+    'regress_feature': {
+        'train_timestamps': './CryoEM_data/target_CTF_Y1.csv',
+        'val_timestamps': 'CryoEM_data/target_CTF_Y1.csv',
+        'train_ctf_file': './CryoEM_data/target_CTF_Y1_train.csv',
+        'val_ctf_file': './CryoEM_data/target_CTF_Y1_val.csv',
+        'train_prediction_file': './CryoEM_data/Y1_2_regress_8bit_res50_train_by_hl.txt',
+        'val_prediction_file': './CryoEM_data/Y1_2_regress_8bit_res50_val_by_hl.txt',
+        'train_visual_file': None,
+        'val_visual_file': None,
+        'category_bins': [0, 4, 6, 8, 10, 999999],
+        'feature_dim': 32
+    }
+},
+```
 
-### Step 3: Evaluating
+To use a different image regressor, replace `train_timestamps`, `val_timestamps`, `train_ctf_file`, `val_ctf_file`, `train_prediction_file` and `val_prediction_file` with the ground truth and the evaluation results from your own model. `train_visual_file` is currently repressed.
 
-Execute the command `python train.py --config /YOUR_CONFIG/.yaml --lr 0.001 --backbone_net resnet18 -b 32 --epochs 100 --pretrained /YOUR_MODEL_PATH/ -e`, where `/YOUR_MODEL_PATH/` in the previous example is `/cryoRL/log/YOUR_DATA/SL_resnet18-cosine-bs64-e2/0/`. To quickly retrieve `sklearn` model metrics, execute `python tools/get_clf_metrics.py --dir /YOUR_MODEL_PATH/` to print a summary similar to the following:
+### Input files
 
-<img width="679" alt="Screen Shot 2022-08-10 at 9 48 29 PM" src="https://user-images.githubusercontent.com/109689432/184051481-063c64d8-1b78-4358-8aa5-20fb763615ba.png">
+The files specified in `CryoEM-8bit-resnet50-Y1` were uploaded to the `CryoEM_data` folder in this repo. For csv files, column 1 is the target name, column 4 is the CTFMaxRes (i.e. quality score) for the target. Txt files include the target name and the predicted CTFMaxRes, which were generated from the regressor. Please keep the same format if you'd like to use your own prediction.
 
-## Re-training DQN Policy
+### Running the DQN
 
 To train a DQN (sample code):  
+``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --duration 480 --prediction-type regress --train-prediction --test-prediction``  
 
-### Step 0: Compiling dataset
-Multiple datasets were compiled in `cryoRL/cryoEM_dataset.py`. For example, `CryoEM-resnet18`:
-```
-    'CryoEM-resnet18': {
-        'cat_feature': {
-            'train_timestamps': './CryoEM_data/timestamps.csv',
-            'val_timestamps': './CryoEM_data/timestamps.csv',
-            'train_ctf_file': './CryoEM_data/CTF_train_by_hl.csv',
-            'val_ctf_file': './CryoEM_data/CTF_val_by_hl.csv',
-            'train_prediction_file': './CryoEM_data/2_categorization_res18_train_by_hl.txt',
-           'val_prediction_file': './CryoEM_data/2_categorization_res18_val_by_hl.txt',
-            'train_visual_file': './CryoEM_data/resnet18-train-cnn-feature.pickle',
-           'val_visual_file': './CryoEM_data/resnet18-val-cnn-feature.pickle',
-           'category_bins': [0, 6, 999999],
-           'feature_dim': 17
-        },
-    }
-```
-To use a different image regressor, replace `train_ctf_file`, `val_ctf_file`, `train_prediction_file` and `val_prediction_file` with the evaluation results from your own model. `train_visual_file` is currently repressed.
+Note that training would usually take several hours on a typical computer with supported GPU acceleration.
 
-### Step 1: Training
-Run `train.py` under the `cryoRL` folder.
-``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --duration 120 --prediction-type regress --train-prediction --test-prediction``  
+Replace the `--dataset` to any dataset you created `cryoRL/cryoEM_dataset.py`. You can also specify the good/bad micrograph threshold by changing `--ctf-thresh`.
 
 
-## Step 2: Evaluate
-To evaluate, add `--eval` option and the trained policy `policy.pth` under the provided `logdir` will be evaluated.
+To evaluate a trained DQN (sample code):  
 ``python train.py --dataset CryoEM-8bit-resnet50-Y1 --lr 0.01 --epoch 20 --training-num 10 --test-num 10 --logdir test-6t/CryoEM-8bit-resnet50-Y1 --step-per-epoch 2500 --ctf-thresh 6.0 --prediction-type regress --train-prediction --test-prediction --eval --duration 480 --print-trajectory``
+
+The trained model to evaluate is specified by `--logdir`.
+
+Note that evaluation would usually take less than 1 hour on a typical computer with supported GPU acceleration. This is because we were running many parallel runs on the same dataset with a random starting position.
+
+The output of the evaluation would be a sequence of targets and the resulting statistics from 50 parallel runs each starting from a random position.
