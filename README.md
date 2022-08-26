@@ -30,7 +30,7 @@ Example hole-level images, along with the desired file organization can be found
 
 You can also download it from our shared Google drive: https://drive.google.com/drive/folders/1znPXk5fJ9aujWDfeaU3LJlLyVjnuod_Y?usp=sharing.
 
-The dataset folder needs to be placed parallel to this repository (CryoRL-pytorch). If you want to change that, you should modify the `config/regress_valY1.yaml` to indicate a valid path.
+The dataset folder needs to be placed parallel to this repository (CryoRL-pytorch). If you want to change that, you should modify the `configs/regress_valY1.yaml` to indicate a valid path.
 
 ### The configuration yaml file
 
