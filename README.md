@@ -6,7 +6,7 @@ CryoRL utilizes a two-fold regressor and reinforcement learning networks to dete
 
 ## Step 0: Installation
 
-To start, create a new suitable conda environment :  
+To start, create a new suitable conda environment using the versions outlined in `requirements.txt`:  
 `conda create --name <env> --file requirements.txt`  
 Typical installation should take only several minutes.
 
